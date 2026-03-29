@@ -9,95 +9,76 @@ function PackCard({
 }: {
   pack: (typeof storePacks)[number];
 }) {
+  // Badge color mapping
   const badgeColors: Record<string, { bg: string; text: string }> = {
-    Starter: { bg: "from-[#89fdfc] to-[#5ea9ff]", text: "#111" },
-    Sports: { bg: "from-[#ffc439] to-[#ff7c33]", text: "#111" },
-    Markets: { bg: "from-[#b28cff] to-[#ff6fa8]", text: "#111" },
-    Premium: { bg: "from-[#78f08d] to-[#17b67a]", text: "#111" },
+    Starter: { bg: "bg-gradient-to-r from-[#89fdfc] to-[#5ea9ff]", text: "text-black" },
+    Sports: { bg: "bg-gradient-to-r from-[#ffc439] to-[#ff7c33]", text: "text-black" },
+    Markets: { bg: "bg-gradient-to-r from-[#b28cff] to-[#ff6fa8]", text: "text-white" },
+    Premium: { bg: "bg-gradient-to-r from-[#78f08d] to-[#17b67a]", text: "text-black" },
   };
   
   const badge = badgeColors[pack.badge] || badgeColors.Starter;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-[12px] border border-white/8 bg-[#111] transition-all hover:border-white/20">
-      {/* Badge */}
+    <div className="group relative flex w-[280px] shrink-0 flex-col rounded-[10px] border border-white/[0.08] bg-[#111] transition-all hover:border-white/[0.18]">
+      {/* Badge - top left */}
       <div className="absolute left-3 top-3 z-10">
-        <div className={`rounded-full bg-linear-to-r ${badge.bg} px-2.5 py-1 font-good-headline-medium text-[11px] leading-5 ${pack.badge === "Sports" || pack.badge === "Starter" || pack.badge === "Premium" ? "text-black" : "text-white"}`}>
+        <span className={`rounded-full px-2.5 py-1 font-good-headline-medium text-[11px] leading-5 ${badge.bg} ${badge.text}`}>
           {pack.badge}
-        </div>
+        </span>
       </div>
 
-      {/* Pack Image Area */}
-      <div className="relative flex aspect-[3/4] items-center justify-center bg-[#0a0a0a]">
-        {/* Glow effect */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
+      {/* Pack Image - sealed pack visual */}
+      <div className="relative flex h-[180px] items-center justify-center bg-[#080808]">
+        {/* Glow */}
+        <div 
+          className="pointer-events-none absolute inset-0 opacity-25"
           style={{
-            background: `radial-gradient(ellipse at center, ${pack.accentFrom}30 0%, transparent 70%)`,
+            background: `radial-gradient(circle at 50% 60%, ${pack.accentFrom} 0%, transparent 60%)`,
           }}
         />
-
-        {/* Pack visualization */}
-        <div
-          className="relative flex flex-col items-center justify-center rounded-[10px] border border-white/10 bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] p-4 shadow-2xl"
-          style={{
-            boxShadow: `0 16px 48px -16px ${pack.accentFrom}60`,
-          }}
-        >
-          {/* Card stack effect */}
-          <div className="relative h-[100px] w-[70px]">
-            {/* Background cards */}
-            <div 
-              className="absolute left-0 top-2 h-full w-full rounded-lg border border-white/10 bg-gradient-to-br"
-              style={{ 
-                background: `linear-gradient(135deg, ${pack.accentFrom}15, ${pack.accentTo}15)`,
-                transform: "translateX(-4px) rotate(-6deg)" 
-              }}
-            />
-            <div 
-              className="absolute left-0 top-2 h-full w-full rounded-lg border border-white/10 bg-gradient-to-br"
-              style={{ 
-                background: `linear-gradient(135deg, ${pack.accentFrom}20, ${pack.accentTo}20)`,
-                transform: "translateX(2px) rotate(4deg)" 
-              }}
-            />
-            {/* Front card */}
-            <div 
-              className="absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-lg border border-white/20 bg-gradient-to-br"
-              style={{ 
-                background: `linear-gradient(135deg, ${pack.accentFrom}, ${pack.accentTo})`,
-              }}
-            >
-              <span className="font-good-headline-bold text-[24px] text-white/90">?</span>
+        
+        {/* Sealed Pack - rectangular with seal */}
+        <div className="relative h-[90px] w-[130px]">
+          {/* Pack body */}
+          <div 
+            className="absolute inset-0 rounded-md"
+            style={{
+              background: `linear-gradient(135deg, ${pack.accentFrom}, ${pack.accentTo})`,
+              boxShadow: `0 8px 32px -8px ${pack.accentFrom}80`,
+            }}
+          />
+          {/* Pack seal/icon area */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="h-[30px] w-[30px] rounded-full border-2 border-white/30 flex items-center justify-center">
+              <span className="font-good-headline-bold text-[18px] text-white/70">?</span>
             </div>
           </div>
-          
-          <span className="mt-4 font-good-headline-medium text-[13px] text-white/70">
-            {pack.revealCount}
-          </span>
+          {/* Pack edge highlight */}
+          <div className="absolute inset-0 rounded-md border border-white/10" />
         </div>
       </div>
 
-      {/* Pack Info */}
+      {/* Pack Details */}
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-good-headline-bold text-[18px] leading-6 text-white">
+        <h3 className="font-good-headline-bold text-[17px] leading-6 text-white">
           {pack.title}
         </h3>
 
-        <p className="mt-2 line-clamp-2 font-sans text-[13px] leading-5 text-[#888]">
+        <p className="mt-1.5 line-clamp-2 font-sans text-[12px] leading-5 text-[#777]">
           {pack.description}
         </p>
 
         <div className="mt-auto flex items-center justify-between pt-3">
-          <div className="flex items-baseline gap-0.5">
-            <span className="font-good-headline-bold text-[24px] leading-[1.1] text-white">
+          <div className="flex items-baseline">
+            <span className="font-good-headline-bold text-[22px] leading-[1.1] text-white">
               {pack.price}
             </span>
           </div>
 
           <UpshotLink
             href={pack.href}
-            className="rounded-full bg-white px-4 py-2 font-good-headline-medium text-[14px] leading-5 text-black transition-transform hover:scale-[1.02]"
+            className="rounded-full bg-white px-4 py-2 font-good-headline-medium text-[13px] leading-5 text-black transition-transform hover:scale-[1.02]"
           >
             Open Pack
           </UpshotLink>
@@ -116,23 +97,23 @@ export default function StorePage() {
           <h1 className="font-good-headline-bold text-[32px] leading-[1.1] text-white md:text-[44px]">
             Mystery Packs
           </h1>
-          <p className="mt-2 max-w-[600px] font-sans text-[15px] leading-6 text-[#888] md:text-[16px]">
-            Rip a Pack, Win the Future. Open a pack and reveal prediction cards tied to real-world events.
+          <p className="mt-2 max-w-[640px] font-sans text-[15px] leading-6 text-[#888] md:text-[16px]">
+            Rip a Pack, Win the Future. Open a pack and reveal prediction cards tied to real-world events in Sports, Internet Culture and Beyond!
           </p>
         </div>
 
-        {/* Pack Grid - 2 columns on mobile, 4 on desktop */}
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        {/* Pack Row - horizontal scroll on mobile */}
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide md:flex md:flex-wrap md:justify-center md:gap-5 md:overflow-visible">
           {storePacks.map((pack) => (
             <PackCard key={pack.title} pack={pack} />
           ))}
         </div>
 
-        {/* Free Card CTA */}
+        {/* Free Card Link */}
         <div className="mt-10 flex items-center justify-center md:mt-12">
           <UpshotLink 
             href="/claim" 
-            className="font-good-headline-medium text-[15px] text-white underline underline-offset-4 transition-colors hover:text-[#89fdfc]"
+            className="font-good-headline-medium text-[14px] text-white underline underline-offset-4 transition-colors hover:text-[#89fdfc]"
           >
             Claim your free daily card
           </UpshotLink>
