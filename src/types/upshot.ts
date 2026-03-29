@@ -72,3 +72,15 @@ export interface StorePackItem {
   revealCount: string;
   title: string;
 }
+
+export interface GoldCard {
+  title: string;
+  image: string;
+  chance: string;
+}
+
+export interface BonusCardOdd {
+  label: string;
+  percentage: string;
+  color: string;
+}
