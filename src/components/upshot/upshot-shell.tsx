@@ -43,18 +43,18 @@ export function UpshotLink({ href, children, rel, target, ...props }: UpshotLink
 export function UpshotHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#050505f2] backdrop-blur-[10px]">
-      <div className="mx-auto flex h-[80px] w-full max-w-[1440px] items-center justify-between px-5 md:px-8 xl:px-14">
-        <div className="flex items-center gap-5">
-          <UpshotLink href="/" className="flex shrink-0 items-center gap-5" aria-label="Go to homepage">
-            <img src={headerLogoSrc} alt="Upshot" className="h-[34px] w-[118px] object-contain" />
-            <span className="hidden h-8 w-px bg-white/14 md:block" aria-hidden="true" />
+      <div className="mx-auto flex h-[56px] w-full max-w-[1440px] items-center justify-between px-4 md:px-6 xl:px-10">
+        <div className="flex items-center gap-4">
+          <UpshotLink href="/" className="flex shrink-0 items-center gap-4" aria-label="Go to homepage">
+            <img src={headerLogoSrc} alt="Upshot" className="h-[24px] w-[84px] object-contain md:h-[30px] md:w-[102px]" />
+            <span className="hidden h-6 w-px bg-white/14 md:block" aria-hidden="true" />
           </UpshotLink>
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-5 md:flex">
             {navLinks.map((link) => (
               <UpshotLink
                 key={link.label}
                 href={link.href}
-                className="font-sans text-[15px] font-medium leading-6 text-white/82 transition-colors hover:text-white"
+                className="font-sans text-[13px] font-medium leading-5 text-white/82 transition-colors hover:text-white"
               >
                 {link.label}
               </UpshotLink>
@@ -62,17 +62,17 @@ export function UpshotHeader() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2">
           <UpshotLink
             href="https://docs.upshot.cards/"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white/60 transition-colors hover:text-white/85 lg:flex"
+            className="hidden h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white/60 transition-colors hover:text-white/85 md:flex"
             aria-label="Docs"
           >
-            <DocsIcon className="h-4 w-4" />
+            <DocsIcon className="h-[13px] w-[13px]" />
           </UpshotLink>
           <UpshotLink
             href="/login"
-            className="rounded-full bg-[#a8ebff] px-5 py-2.5 font-sans text-[15px] font-semibold leading-5 text-[#111] transition-transform hover:scale-[1.01] md:px-8"
+            className="rounded-full bg-[#a8ebff] px-4 py-2 font-sans text-[12px] font-semibold leading-4 text-[#111] transition-transform hover:scale-[1.01] md:px-6 md:text-[13px]"
           >
             Login / Register
           </UpshotLink>
@@ -128,7 +128,7 @@ export function UpshotPageFrame({
   return (
     <div className="min-h-screen bg-[#050505] text-[#ededed]">
       <UpshotHeader />
-      <main className="overflow-x-clip pt-[80px]">
+      <main className="overflow-x-clip pt-[56px]">
         {children}
         <UpshotFooter />
       </main>
