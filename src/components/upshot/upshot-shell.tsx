@@ -9,10 +9,10 @@ import { AnalyticsBanner } from "@/components/upshot/analytics-banner";
 import { footerLinks, navLinks, socialLinks } from "@/lib/upshot-data";
 
 export const primaryButtonClass =
-  "inline-flex items-center justify-center rounded-full bg-linear-to-r from-[#89fdfc] to-[#96e3ff] px-6 py-3 font-good-headline-medium text-[18px] leading-6 text-[#111]";
+  "inline-flex items-center justify-center rounded-full bg-linear-to-r from-[#89fdfc] to-[#96e3ff] px-4 py-2.5 font-good-headline-medium text-[14px] leading-5 text-[#111] md:px-5";
 
 export const secondaryButtonClass =
-  "inline-flex items-center justify-center rounded-full bg-[#221f40] px-6 py-3 font-good-headline-medium text-[18px] leading-6 text-white";
+  "inline-flex items-center justify-center rounded-full bg-[#221f40] px-4 py-2.5 font-good-headline-medium text-[14px] leading-5 text-white md:px-5";
 
 const headerLogoSrc = "https://upshot.cards/branding/upshot_logo.svg?dpl=dpl_HexM6xPEaL4oYURmoJQ2PKD6Fn5h";
 
@@ -43,18 +43,18 @@ export function UpshotLink({ href, children, rel, target, ...props }: UpshotLink
 export function UpshotHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#050505f2] backdrop-blur-[10px]">
-      <div className="mx-auto flex h-[80px] w-full max-w-[1440px] items-center justify-between px-5 md:px-8 xl:px-14">
-        <div className="flex items-center gap-5">
-          <UpshotLink href="/" className="flex shrink-0 items-center gap-5" aria-label="Go to homepage">
-            <img src={headerLogoSrc} alt="Upshot" className="h-[34px] w-[118px] object-contain" />
-            <span className="hidden h-8 w-px bg-white/14 md:block" aria-hidden="true" />
+      <div className="mx-auto flex h-[52px] w-full max-w-[1120px] items-center justify-between px-3 md:px-4">
+        <div className="flex items-center gap-4">
+          <UpshotLink href="/" className="flex shrink-0 items-center gap-4" aria-label="Go to homepage">
+            <img src={headerLogoSrc} alt="Upshot" className="h-[22px] w-[75px] object-contain md:h-[28px] md:w-[98px]" />
+            <span className="hidden h-6 w-px bg-white/14 md:block" aria-hidden="true" />
           </UpshotLink>
-          <nav className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-5 md:flex">
             {navLinks.map((link) => (
               <UpshotLink
                 key={link.label}
                 href={link.href}
-                className="font-sans text-[15px] font-medium leading-6 text-white/82 transition-colors hover:text-white"
+                className="font-sans text-[11px] font-medium leading-4 text-white/78 transition-colors hover:text-white lg:text-[13px]"
               >
                 {link.label}
               </UpshotLink>
@@ -62,17 +62,17 @@ export function UpshotHeader() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2">
           <UpshotLink
             href="https://docs.upshot.cards/"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white/60 transition-colors hover:text-white/85 lg:flex"
+            className="hidden h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white/60 transition-colors hover:text-white/85 md:flex"
             aria-label="Docs"
           >
-            <DocsIcon className="h-4 w-4" />
+            <DocsIcon className="h-[13px] w-[13px]" />
           </UpshotLink>
           <UpshotLink
             href="/login"
-            className="rounded-full bg-[#a8ebff] px-5 py-2.5 font-sans text-[15px] font-semibold leading-5 text-[#111] transition-transform hover:scale-[1.01] md:px-8"
+            className="rounded-full bg-[#a8ebff] px-4 py-2 font-sans text-[11px] font-semibold leading-4 text-[#111] transition-transform hover:scale-[1.01] md:px-6 md:text-[13px]"
           >
             Login / Register
           </UpshotLink>
@@ -84,12 +84,12 @@ export function UpshotHeader() {
 
 export function UpshotFooter() {
   return (
-    <footer className="mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-4 pb-10 pt-6 md:flex-row md:items-end md:justify-between md:px-16 md:pb-12">
+    <footer className="mx-auto flex w-full max-w-[1120px] flex-col gap-6 px-4 pb-8 pt-5 md:flex-row md:items-end md:justify-between md:px-4 md:pb-10">
       <div className="flex flex-col items-start gap-6">
         <UpshotLink href="/" aria-label="Go to homepage">
-          <img src="/images/upshot-logo-bw.svg" alt="Upshot" className="h-[35px] w-[85px]" />
+          <img src="/images/upshot-logo-bw.svg" alt="Upshot" className="h-[28px] w-[69px]" />
         </UpshotLink>
-        <span className="max-w-[200px] font-sans text-[14px] leading-5 text-[#999] md:max-w-none">
+        <span className="max-w-[200px] font-sans text-[12px] leading-4 text-[#999] md:max-w-none">
           © 2026 Upshot. All rights reserved.
         </span>
         <div className="flex items-center gap-4">
@@ -128,7 +128,7 @@ export function UpshotPageFrame({
   return (
     <div className="min-h-screen bg-[#050505] text-[#ededed]">
       <UpshotHeader />
-      <main className="overflow-x-clip pt-[80px]">
+      <main className="overflow-x-clip pt-[52px]">
         {children}
         <UpshotFooter />
       </main>
