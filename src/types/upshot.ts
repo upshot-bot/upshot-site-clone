@@ -61,14 +61,16 @@ export interface FeaturedCardItem {
 }
 
 export interface StorePackItem {
-  accentFrom: string;
-  accentTo: string;
-  badge: string;
+  buttonLabel: string;
   description: string;
   href: string;
+  imageAlt: string;
+  imageSrc: string;
   includedCardIndexes: number[];
+  isSoldOut: boolean;
   price: string;
-  previewCardIndexes: number[];
+  priceSuffix: string;
   revealCount: string;
+  statusLabel: string;
   title: string;
 }
