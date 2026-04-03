@@ -8,6 +8,8 @@ import {
   primaryButtonClass,
   secondaryButtonClass,
 } from "@/components/upshot/upshot-shell";
+import { StoreBrowseBar } from "@/components/upshot/store-browse-bar";
+import { StoreSliderHeader } from "@/components/upshot/store-slider-header";
 import {
   featuredCards,
   featuredContests,
@@ -207,8 +209,12 @@ function StorePackVisual({ pack }: { pack: StorePackItem }) {
   return (
     <div className="relative overflow-hidden rounded-[4px] bg-black">
       <div className="relative aspect-[291/480] w-full">
-        <img src={pack.imageSrc} alt={pack.imageAlt} className="h-full w-full object-contain" />
-        <div className="pointer-events-none absolute inset-x-0 top-[30%] flex justify-center">
+        <img
+          src={pack.imageSrc}
+          alt={pack.imageAlt}
+          className={`h-full w-full object-contain ${pack.isSoldOut ? "opacity-50" : ""}`}
+        />
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center">
           <div className="font-good-headline-bold text-[28px] leading-none text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] md:text-[30px]">
             {pack.statusLabel}
           </div>
@@ -220,43 +226,45 @@ function StorePackVisual({ pack }: { pack: StorePackItem }) {
 
 function StorePackGrid({ packs }: { packs: StorePackItem[] }) {
   return (
-    <div className="grid gap-x-4 gap-y-8 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
       {packs.map((pack) => (
         <article key={pack.href} className="flex h-full flex-col">
-          <div className="mx-auto w-full max-w-[240px]">
+          <div className="mx-auto w-full max-w-[189px]">
             <StorePackVisual pack={pack} />
+          </div>
 
-            <div className="mt-4">
-              <div className="flex items-start justify-between gap-3">
-                <h3 className="max-w-[75%] font-good-headline-medium text-[18px] leading-5 text-white">
-                  {pack.title}
-                </h3>
-                <div className="shrink-0 text-right">
-                  <div className="font-good-headline-medium text-[18px] leading-5 text-white">{pack.price}</div>
-                  <div className="font-sans text-[10px] uppercase leading-4 text-[#9b9b9b]">{pack.priceSuffix}</div>
+          <div className="mt-5 w-full">
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="max-w-[72%] overflow-hidden text-ellipsis whitespace-nowrap font-good-headline-medium text-[22px] leading-[1.02] text-white md:text-[24px]">
+                {pack.title}
+              </h3>
+              <div className="flex shrink-0 items-end gap-1.5 pt-0.5 text-right">
+                <div className="font-good-headline-medium text-[24px] leading-none text-white">{pack.price}</div>
+                <div className="pb-[3px] font-sans text-[12px] uppercase leading-none text-[#b7b7b7]">
+                  {pack.priceSuffix}
                 </div>
               </div>
-
-              <p
-                className="mt-2 min-h-[54px] font-sans text-[11px] leading-[1.45] text-[#8f8f8f]"
-                style={{
-                  display: "-webkit-box",
-                  WebkitBoxOrient: "vertical",
-                  WebkitLineClamp: 3,
-                  overflow: "hidden",
-                }}
-              >
-                {pack.description}
-              </p>
-
-              <button
-                type="button"
-                disabled={pack.isSoldOut}
-                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-linear-to-r from-[#89fdfc] to-[#96e3ff] px-4 py-2.5 font-good-headline-medium text-[14px] leading-5 text-[#111] opacity-85"
-              >
-                {pack.buttonLabel}
-              </button>
             </div>
+
+            <p
+              className="mt-3 h-[43px] overflow-hidden pr-2 font-sans text-[16px] leading-[1.34] text-[#8f8f8f]"
+              style={{
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+                overflow: "hidden",
+              }}
+            >
+              {pack.description}
+            </p>
+
+            <button
+              type="button"
+              disabled={pack.isSoldOut}
+              className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-[#7da8b4] px-4 py-3 font-sans text-[14px] font-semibold leading-5 text-[#111] opacity-80"
+            >
+              {pack.buttonLabel}
+            </button>
           </div>
         </article>
       ))}
@@ -400,10 +408,47 @@ function CardDetail({ card }: { card: FeaturedCardItem }) {
 }
 
 function StorePage() {
+  const storeSlides = [
+    {
+      ctaHref: "/store",
+      ctaLabel: "Buy a pack",
+      description: "A more app-like local store surface so the pack flow feels closer to Upshot instead of a generic placeholder.",
+      eyebrow: "Packs",
+      imageAlt: storePacks[0].imageAlt,
+      imageSrc: storePacks[0].imageSrc,
+      title: "Collect. Play. Win",
+    },
+    {
+      ctaHref: "/store/march-mayhem-3",
+      ctaLabel: "Buy a pack",
+      description: "Rip prediction packs, reveal live outcomes, and collect cards tied to sports, markets, and culture moments.",
+      eyebrow: "Prediction packs",
+      imageAlt: storePacks[2].imageAlt,
+      imageSrc: storePacks[2].imageSrc,
+      title: "Open mystery packs",
+    },
+    {
+      ctaHref: "/store/network-effect-1",
+      ctaLabel: "Buy a pack",
+      description: "Browse limited drops, sold-out classics, and packs built around the stories people are actually watching right now.",
+      eyebrow: "Limited drops",
+      imageAlt: storePacks[3].imageAlt,
+      imageSrc: storePacks[3].imageSrc,
+      title: "Track the moment",
+    },
+  ];
+
   return (
     <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
-      <h1 className="font-good-headline-bold text-[40px] leading-none text-white md:text-[48px]">Packs</h1>
-      <div className="mt-7">
+      <StoreSliderHeader slides={storeSlides} />
+
+      <div className="mt-10">
+        <h2 className="font-good-headline-bold text-[27px] leading-none text-white md:text-[33px]">Browse packs</h2>
+      </div>
+      <div className="mt-6">
+        <StoreBrowseBar />
+      </div>
+      <div className="mt-8">
         <StorePackGrid packs={storePacks} />
       </div>
     </section>
