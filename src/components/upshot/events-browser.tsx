@@ -72,6 +72,7 @@ export function EventsBrowser({ events }: { events: EventItem[] }) {
       <div className="mt-5 flex flex-wrap gap-2.5">
         {eventFilters.map((filter) => {
           const isActive = activeFilter === filter.label;
+          const iconSrc = "icon" in filter ? filter.icon : null;
 
           return (
             <button
@@ -85,7 +86,7 @@ export function EventsBrowser({ events }: { events: EventItem[] }) {
                   : "border-[#2a2a2a] bg-[#0f0f0f] text-[#9d9d9d] hover:border-[#3f3f3f] hover:text-white"
               }`}
             >
-              {filter.icon ? <img src={filter.icon} alt="" className="h-3 w-3" /> : null}
+              {iconSrc ? <img src={iconSrc} alt="" className="h-3 w-3" /> : null}
               <span>{filter.label}</span>
             </button>
           );
