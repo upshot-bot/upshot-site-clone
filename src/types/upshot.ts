@@ -20,10 +20,13 @@ export interface HowToStep {
 }
 
 export interface EventItem {
+  badgeLabel?: string;
   category: string;
   categoryIcon: string;
   heroImage: string;
   href: string;
+  isFeatured?: boolean;
+  resolutionDate?: string;
   statusLabel: string;
   thumbnails: string[];
   title: string;

@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation";
 
 import { ContestsBrowser } from "@/components/upshot/contests-browser";
+import { EventsBrowser } from "@/components/upshot/events-browser";
 import {
   UpshotLink,
   UpshotPageFrame,
@@ -13,9 +14,10 @@ import { StoreBrowseBar } from "@/components/upshot/store-browse-bar";
 import { StoreSliderHeader } from "@/components/upshot/store-slider-header";
 import {
   allContests,
+  allEvents,
   contestListings,
+  eventListings,
   featuredCards,
-  featuredEvents,
   howToSteps,
   marketplaceListings,
   storePacks,
@@ -110,36 +112,6 @@ function OverviewPanel({
       <div className="mt-3 font-good-headline-medium text-[30px] leading-[1.05] text-white">{value}</div>
       <div className="mt-2 font-sans text-[14px] leading-6 text-[#9f9f9f]">{note}</div>
     </div>
-  );
-}
-
-function EventOverviewCard({ event }: { event: EventItem }) {
-  return (
-    <article className="overflow-hidden rounded-[12px] border border-[#333] bg-[#111]">
-      <div className="flex flex-col gap-5 p-5 md:flex-row">
-        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[14px]">
-          <img src={event.heroImage} alt={event.title} className="h-full w-full object-cover" />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <img src={event.categoryIcon} alt="" className="h-4 w-4" />
-            <span className="font-good-headline-medium text-[16px] leading-5 text-[#d8d8d8]">{event.category}</span>
-          </div>
-          <h3 className="mt-3 font-good-headline-medium text-[26px] leading-[1.1] text-white uppercase">
-            {event.title}
-          </h3>
-          <p className="mt-3 font-sans text-[14px] leading-6 text-[#9f9f9f]">{event.statusLabel}</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <UpshotLink href={event.href} className={`${primaryButtonClass} px-5 py-2 text-[16px]`}>
-              View event
-            </UpshotLink>
-            <UpshotLink href="/contests" className={`${secondaryButtonClass} px-5 py-2 text-[16px]`}>
-              Browse contests
-            </UpshotLink>
-          </div>
-        </div>
-      </div>
-    </article>
   );
 }
 
@@ -708,30 +680,15 @@ function LoginPage() {
 
 function EventsPage() {
   return (
-    <>
-      <PageHero
-        eyebrow="Events"
-        title="Event discovery now stays inside the clone"
-        description="This view gives you a local place to redesign event browsing, category filters, and detail-page transitions while keeping the captured homepage content intact."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/contests" className={primaryButtonClass}>
-            Jump to contests
-          </UpshotLink>
-          <UpshotLink href="/" className={secondaryButtonClass}>
-            Return home
-          </UpshotLink>
-        </div>
-      </PageHero>
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <div>
+        <h1 className="font-good-headline-medium text-[40px] leading-none text-white md:text-[46px]">All Events</h1>
+      </div>
 
-      <SectionFrame title="Captured events" description="These event cards come directly from the homepage dataset captured during cloning.">
-        <div className="grid gap-4">
-          {featuredEvents.map((event) => (
-            <EventOverviewCard key={event.href} event={event} />
-          ))}
-        </div>
-      </SectionFrame>
-    </>
+      <div className="mt-8">
+        <EventsBrowser events={eventListings} />
+      </div>
+    </section>
   );
 }
 
@@ -964,7 +921,7 @@ export default async function UpshotSubpage({
       content = <EventsPage />;
       break;
     case "event": {
-      const event = findRouteItem(featuredEvents, path);
+      const event = findRouteItem(allEvents, path);
       content = event ? <EventDetail event={event} /> : <UnknownRoute slug={slug} />;
       break;
     }
