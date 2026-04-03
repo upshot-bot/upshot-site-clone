@@ -34,6 +34,8 @@ export interface ContestCategory {
   label: string;
 }
 
+export type ContestStatus = "live" | "open" | "completed";
+
 export interface ContestItem {
   cardsRequired: number;
   categories: ContestCategory[];
@@ -48,6 +50,7 @@ export interface ContestItem {
   resolutionLabel: string;
   resolutionNote: string;
   resolutionValue: string;
+  status: ContestStatus;
   title: string;
 }
 

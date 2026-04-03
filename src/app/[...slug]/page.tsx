@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 
+import { ContestsBrowser } from "@/components/upshot/contests-browser";
 import {
   UpshotLink,
   UpshotPageFrame,
@@ -11,8 +12,9 @@ import {
 import { StoreBrowseBar } from "@/components/upshot/store-browse-bar";
 import { StoreSliderHeader } from "@/components/upshot/store-slider-header";
 import {
+  allContests,
+  contestListings,
   featuredCards,
-  featuredContests,
   featuredEvents,
   howToSteps,
   marketplaceListings,
@@ -135,44 +137,6 @@ function EventOverviewCard({ event }: { event: EventItem }) {
               Browse contests
             </UpshotLink>
           </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function ContestOverviewCard({ contest }: { contest: ContestItem }) {
-  return (
-    <article className="rounded-[12px] border border-[#333] bg-[#111] p-5">
-      <div className="flex flex-col gap-5 md:flex-row md:items-center">
-        <div className="relative w-full overflow-hidden rounded-[10px] md:w-[180px] md:shrink-0">
-          <img src={contest.poster} alt={contest.title} className="aspect-square h-full w-full object-cover" />
-        </div>
-
-        <div className="flex-1">
-          <div className="flex items-center gap-2 font-good-headline-medium text-[16px] leading-5 text-[#d8d8d8]">
-            <img src="/images/gold.svg" alt="" className="h-4 w-4" />
-            <span>{contest.cardsRequired} cards required</span>
-          </div>
-          <h3 className="mt-3 font-good-headline-medium text-[26px] leading-[1.1] text-white uppercase">{contest.title}</h3>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {contest.categories.map((category) => (
-              <img
-                key={`${contest.title}-${category.label}`}
-                src={category.icon}
-                alt={category.label}
-                title={category.label}
-                className="h-[18px] w-[18px]"
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="grid gap-4 rounded-[12px] border border-[#2d2d2d] bg-[#151515] p-4 md:w-[220px] md:shrink-0">
-          <OverviewPanel label="Ends In" value={contest.endsIn} note={contest.ctaLabel} />
-          <UpshotLink href={contest.href} className={`${primaryButtonClass} w-full px-4 py-2 text-[16px]`}>
-            Open contest
-          </UpshotLink>
         </div>
       </div>
     </article>
@@ -772,31 +736,45 @@ function EventsPage() {
 }
 
 function ContestsPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Contests"
-        title="Contest navigation is now fully local"
-        description="This route keeps the contest journey inside the clone so you can iterate on list density, filter systems, entry prompts, and prize framing without touching production."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/store" className={primaryButtonClass}>
-            Open a pack
-          </UpshotLink>
-          <UpshotLink href="/" className={secondaryButtonClass}>
-            Back home
-          </UpshotLink>
-        </div>
-      </PageHero>
+  const contestSlides = [
+    {
+      ctaHref: "/contests/ncaa-pick-5-unlimited",
+      ctaLabel: "View Contest",
+      description: "Build lineups, track locks, and keep the contests page feeling like a real Upshot competition surface instead of a generic list.",
+      eyebrow: "Contests",
+      title: "Make your call",
+    },
+    {
+      ctaHref: "/contests/pick-5-mid-march-prime-time",
+      ctaLabel: "View Contest",
+      description: "Browse live contests, compare prize pools, and move through current entries with the same tighter rhythm as the store and marketplace routes.",
+      eyebrow: "Live entries",
+      title: "Pick your lineup",
+    },
+    {
+      ctaHref: "/contests/pick-3-early-april-sports",
+      ctaLabel: "View Contest",
+      description: "Surface lineup lock timing, resolution windows, and contest pressure in a layout that feels purpose-built for Upshot’s prediction flow.",
+      eyebrow: "Contest flow",
+      title: "Chase the prize",
+    },
+  ];
 
-      <SectionFrame title="Featured contests" description="Contest timers are still snapshot values from the source capture.">
-        <div className="grid gap-4">
-          {featuredContests.map((contest) => (
-            <ContestOverviewCard key={contest.href} contest={contest} />
-          ))}
+  return (
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <StoreSliderHeader slides={contestSlides} descriptionClassName="max-w-[690px]" />
+
+      <div className="mt-10">
+        <div>
+          <h1 className="font-good-headline-medium text-[28px] leading-none text-white md:text-[33px]">Contests</h1>
+          <p className="mt-4 font-sans text-[15px] leading-6 text-[#b0b0b0]">Fantasy-style prediction contests.</p>
         </div>
-      </SectionFrame>
-    </>
+      </div>
+
+      <div className="mt-6">
+        <ContestsBrowser contests={contestListings} />
+      </div>
+    </section>
   );
 }
 
@@ -996,8 +974,8 @@ export default async function UpshotSubpage({
         break;
       }
 
-      content = findRouteItem(featuredContests, path) ? (
-        <ContestDetail contest={findRouteItem(featuredContests, path)!} />
+      content = findRouteItem(allContests, path) ? (
+        <ContestDetail contest={findRouteItem(allContests, path)!} />
       ) : (
         <UnknownRoute slug={slug} />
       );
