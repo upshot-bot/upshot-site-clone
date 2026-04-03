@@ -15,9 +15,16 @@ import {
   featuredContests,
   featuredEvents,
   howToSteps,
+  marketplaceListings,
   storePacks,
 } from "@/lib/upshot-data";
-import type { ContestItem, EventItem, FeaturedCardItem, StorePackItem } from "@/types/upshot";
+import type {
+  ContestItem,
+  EventItem,
+  FeaturedCardItem,
+  MarketplaceListingItem,
+  StorePackItem,
+} from "@/types/upshot";
 
 type PageParams = {
   slug: string[];
@@ -269,6 +276,130 @@ function StorePackGrid({ packs }: { packs: StorePackItem[] }) {
         </article>
       ))}
     </div>
+  );
+}
+
+function MarketplaceToolbar() {
+  return (
+    <div className="mt-5 md:mt-6">
+      <div className="rounded-full border border-[#2b2b2b] bg-[#131313] px-5 py-2.5 md:px-6">
+        <div className="flex items-center gap-3 overflow-x-auto">
+      <div className="inline-flex shrink-0 items-center gap-3">
+        <button
+          type="button"
+          className="inline-flex h-[44px] items-center rounded-full border border-[#5f96a1] bg-[#1b2628] px-6 font-sans text-[13px] leading-none text-white transition-colors duration-200"
+        >
+          All Cards
+        </button>
+        <button
+          type="button"
+          className="inline-flex h-[44px] items-center rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
+        >
+          By Event
+        </button>
+      </div>
+
+      <label className="inline-flex h-[44px] min-w-[320px] flex-1 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#171717] px-7 transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] focus-within:border-[#5f96a1] focus-within:bg-[#1b2628]">
+        <svg viewBox="0 0 20 20" className="h-4 w-4 text-[#8d8d8d]" fill="none" aria-hidden="true">
+          <path
+            d="M13.75 13.75L17 17M8.875 14.5a5.625 5.625 0 1 1 0-11.25 5.625 5.625 0 0 1 0 11.25Z"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <input
+          type="text"
+          placeholder="Search cards..."
+          className="w-full bg-transparent font-sans text-[13px] text-[#d7d7d7] outline-none placeholder:text-[#8d8d8d]"
+        />
+      </label>
+
+      <button
+        type="button"
+        className="inline-flex h-[44px] shrink-0 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
+      >
+        <span>Ending Soonest</span>
+        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-[#8a8a8a]" fill="none" aria-hidden="true">
+          <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        className="inline-flex h-[44px] shrink-0 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
+      >
+        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-[#bcbcbc]" fill="none" aria-hidden="true">
+          <path
+            d="M3.5 4.5h13l-5.2 6.067V15.5l-2.6-1.3v-3.633L3.5 4.5Z"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span>Filter</span>
+      </button>
+
+      <button
+        type="button"
+        aria-label="Grid view"
+        className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-[#5f96a1] bg-[#1b2628] text-white transition-colors duration-200"
+      >
+        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+          <path d="M3 3h6v6H3V3Zm8 0h6v6h-6V3ZM3 11h6v6H3v-6Zm8 0h6v6h-6v-6Z" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        aria-label="List view"
+        className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-[#2e2e2e] bg-[#1a1a1a] text-[#8a8a8a] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
+      >
+        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
+          <path d="M4 5h3v3H4V5Zm5 0h7v1.8H9V5Zm0 8.2h7V15H9v-1.8ZM4 12h3v3H4v-3Z" />
+        </svg>
+      </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MarketplaceListingCard({ listing }: { listing: MarketplaceListingItem }) {
+  return (
+    <article className="rounded-[10px] border border-[#242424] bg-[#151515] p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.24)]">
+      <UpshotLink href={listing.href} className="block rounded-[6px]">
+        <img
+          src={listing.image}
+          alt={listing.title}
+          title={listing.title}
+          className="w-full rounded-[6px] bg-[#0c0c0c] shadow-[0_0_0_1px_rgba(255,255,255,0.03)]"
+        />
+      </UpshotLink>
+
+      <div className="mt-4 border-t border-[#303030] pt-4">
+        <div className="grid gap-2">
+        <button
+          type="button"
+          className="inline-flex h-[43px] w-full items-center justify-center rounded-full bg-[#759da8] px-3 font-sans text-[15px] font-semibold text-[#121212]"
+        >
+          Login to Buy
+        </button>
+
+        <div className="flex items-center justify-center gap-4 px-2 pt-1 text-center">
+          <div className="font-sans text-[16px] leading-none text-[#b9b9b9]">
+            Available: <span className="text-white">{listing.available}</span>
+          </div>
+          <div className="h-[28px] w-px bg-[#3a3a3a]" />
+          <div className="font-sans text-[16px] leading-none text-[#b9b9b9]">
+            Burned: <span className="text-white">{listing.burned}</span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -670,27 +801,48 @@ function ContestsPage() {
 }
 
 function MarketplacePage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Marketplace"
-        title="A local marketplace playground"
-        description="This placeholder keeps the marketplace nav local and gives you a clean surface for future secondary-market experiments, filter bars, or ownership flows."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/cards" className={primaryButtonClass}>
-            Browse cards
-          </UpshotLink>
-          <UpshotLink href="/leaderboard" className={secondaryButtonClass}>
-            View leaderboard
-          </UpshotLink>
-        </div>
-      </PageHero>
+  const marketplaceSlides = [
+    {
+      ctaHref: "/marketplace",
+      ctaLabel: "Browse cards",
+      description: "Track live listings, scan card scarcity, and keep the marketplace flow feeling like the same Upshot product language as the store.",
+      eyebrow: "Marketplace",
+      title: "The perfect to play",
+    },
+    {
+      ctaHref: "/marketplace",
+      ctaLabel: "Browse cards",
+      description: "Search fast, compare availability, and move through current listings without the page collapsing into a generic gallery.",
+      eyebrow: "Listings",
+      title: "Watch the market",
+    },
+    {
+      ctaHref: "/marketplace",
+      ctaLabel: "Browse cards",
+      description: "Surface scarce cards, track burned supply, and keep the buying layer tight and readable while you iterate on the full market UX.",
+      eyebrow: "Card flow",
+      title: "Find the right card",
+    },
+  ];
 
-      <SectionFrame title="Featured inventory" description="A good starting grid for future marketplace listings.">
-        <CardGrid cards={featuredCards.slice(0, 4)} />
-      </SectionFrame>
-    </>
+  return (
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <StoreSliderHeader slides={marketplaceSlides} descriptionClassName="max-w-[690px]" />
+
+      <div className="mt-10">
+        <h1 className="font-good-headline-medium text-[28px] leading-none text-white md:text-[33px]">Marketplace</h1>
+      </div>
+
+      <div>
+        <MarketplaceToolbar />
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 md:mt-8 md:grid-cols-4 md:gap-x-5 md:gap-y-6 xl:gap-x-6 xl:gap-y-7">
+        {marketplaceListings.map((listing, index) => (
+          <MarketplaceListingCard key={`${listing.title}-${index}`} listing={listing} />
+        ))}
+      </div>
+    </section>
   );
 }
 

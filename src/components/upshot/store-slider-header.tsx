@@ -12,7 +12,13 @@ type StoreSliderSlide = {
   title: string;
 };
 
-export function StoreSliderHeader({ slides }: { slides: StoreSliderSlide[] }) {
+export function StoreSliderHeader({
+  descriptionClassName,
+  slides,
+}: {
+  descriptionClassName?: string;
+  slides: StoreSliderSlide[];
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
@@ -42,7 +48,11 @@ export function StoreSliderHeader({ slides }: { slides: StoreSliderSlide[] }) {
         <h1 className="mt-5 font-good-headline-bold text-[46px] leading-[0.95] text-white md:text-[60px]">
           {activeSlide.title}
         </h1>
-        <p className="mt-6 max-w-[500px] font-sans text-[18px] leading-[1.9] text-[#cdcdcd]">
+        <p
+          className={`mt-6 max-w-[500px] font-sans text-[18px] leading-[1.9] text-[#cdcdcd] ${
+            descriptionClassName ?? ""
+          }`}
+        >
           {activeSlide.description}
         </p>
         <div className="mt-8 flex flex-wrap gap-4">

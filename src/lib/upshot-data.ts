@@ -4,6 +4,7 @@ import type {
   FeaturedCardItem,
   HeroAction,
   HowToStep,
+  MarketplaceListingItem,
   NavLink,
   StorePackItem,
 } from "@/types/upshot";
@@ -243,6 +244,50 @@ export const featuredCards: FeaturedCardItem[] = [
     title: "X Dislike Button Rolls Out Mid Cycle",
   },
 ];
+
+const marketplaceBlueprints = [
+  { available: 10, burned: 2479, cardIndex: 0, editionLabel: "1 / 5", price: "0.034" },
+  { available: 2, burned: 1801, cardIndex: 1, editionLabel: "2 / 10", price: "0.021" },
+  { available: 7, burned: 646, cardIndex: 2, editionLabel: "1 / 3", price: "0.057" },
+  { available: 10, burned: 698, cardIndex: 3, editionLabel: "4 / 15", price: "0.018" },
+  { available: 4, burned: 1320, cardIndex: 4, editionLabel: "1 / 8", price: "0.026" },
+  { available: 6, burned: 934, cardIndex: 5, editionLabel: "3 / 12", price: "0.041" },
+  { available: 1, burned: 2875, cardIndex: 6, editionLabel: "1 / 2", price: "0.062" },
+  { available: 9, burned: 511, cardIndex: 7, editionLabel: "5 / 25", price: "0.015" },
+  { available: 3, burned: 1408, cardIndex: 3, editionLabel: "2 / 7", price: "0.033" },
+  { available: 8, burned: 902, cardIndex: 4, editionLabel: "6 / 20", price: "0.019" },
+  { available: 5, burned: 1766, cardIndex: 5, editionLabel: "1 / 4", price: "0.049" },
+  { available: 2, burned: 1084, cardIndex: 6, editionLabel: "2 / 9", price: "0.028" },
+  { available: 6, burned: 820, cardIndex: 7, editionLabel: "1 / 6", price: "0.031" },
+  { available: 12, burned: 441, cardIndex: 0, editionLabel: "7 / 30", price: "0.014" },
+  { available: 3, burned: 1206, cardIndex: 1, editionLabel: "1 / 11", price: "0.036" },
+  { available: 1, burned: 2220, cardIndex: 2, editionLabel: "2 / 5", price: "0.054" },
+  { available: 9, burned: 594, cardIndex: 6, editionLabel: "3 / 18", price: "0.022" },
+  { available: 2, burned: 1507, cardIndex: 5, editionLabel: "1 / 9", price: "0.038" },
+  { available: 4, burned: 1292, cardIndex: 4, editionLabel: "2 / 6", price: "0.043" },
+  { available: 11, burned: 488, cardIndex: 3, editionLabel: "5 / 20", price: "0.017" },
+  { available: 1, burned: 3044, cardIndex: 2, editionLabel: "1 / 1", price: "0.081" },
+  { available: 5, burned: 970, cardIndex: 1, editionLabel: "3 / 8", price: "0.027" },
+  { available: 7, burned: 742, cardIndex: 0, editionLabel: "2 / 14", price: "0.024" },
+  { available: 3, burned: 1168, cardIndex: 7, editionLabel: "1 / 10", price: "0.029" },
+  { available: 14, burned: 322, cardIndex: 5, editionLabel: "8 / 40", price: "0.012" },
+] as const;
+
+export const marketplaceListings: MarketplaceListingItem[] = marketplaceBlueprints.map((blueprint, index) => {
+  const card = featuredCards[blueprint.cardIndex];
+
+  return {
+    available: blueprint.available,
+    buttonLabel: "Buy now",
+    burned: blueprint.burned,
+    editionLabel: blueprint.editionLabel,
+    href: `${card.href}?listing=${index + 1}`,
+    image: card.image,
+    price: blueprint.price,
+    priceSuffix: "ETH",
+    title: card.title,
+  };
+});
 
 export const storePacks: StorePackItem[] = [
   {

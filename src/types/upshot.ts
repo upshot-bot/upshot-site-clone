@@ -60,6 +60,18 @@ export interface FeaturedCardItem {
   title: string;
 }
 
+export interface MarketplaceListingItem {
+  available: number;
+  buttonLabel: string;
+  burned: number;
+  editionLabel: string;
+  href: string;
+  image: string;
+  price: string;
+  priceSuffix: string;
+  title: string;
+}
+
 export interface StorePackItem {
   buttonLabel: string;
   description: string;
