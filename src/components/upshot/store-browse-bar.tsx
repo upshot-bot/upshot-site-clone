@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import { useState } from "react";
 
 const storeBrowseFilters = ["All packs", "Starter", "Sports", "Markets", "Premium"];
@@ -40,16 +41,16 @@ export function StoreBrowseBar() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search packs or cards"
-              className="h-[49px] w-full rounded-full border border-[#2e2e2e] bg-[#171717] px-7 pr-12 font-sans text-[13px] text-[#d7d7d7] outline-none transition-colors duration-200 placeholder:text-[#8d8d8d] hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white focus:border-[#5f96a1] focus:bg-[#1b2628] focus:text-white focus:placeholder:text-[#b8b8b8] xl:w-[292px]"
+              className="h-[49px] w-full rounded-full border border-[#2e2e2e] bg-[#171717] px-7 pr-14 font-sans text-[13px] text-[#d7d7d7] outline-none transition-colors duration-200 placeholder:text-[#8d8d8d] hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white focus:border-[#5f96a1] focus:bg-[#1b2628] focus:text-white focus:placeholder:text-[#b8b8b8] xl:w-[292px]"
             />
             {query ? (
               <button
                 type="button"
                 aria-label="Clear search"
                 onClick={() => setQuery("")}
-                className="absolute right-5 top-1/2 -translate-y-1/2 font-sans text-[16px] font-semibold leading-none text-[#5f96a1] transition-colors hover:text-white"
+                className="absolute right-3 top-1/2 z-10 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-[#5f96a1]/50 bg-[#111111] text-[#89fdfc] transition-colors hover:border-[#89fdfc] hover:bg-[#1b2628] hover:text-white"
               >
-                ×
+                <X className="h-4 w-4" strokeWidth={2.4} />
               </button>
             ) : null}
           </div>
