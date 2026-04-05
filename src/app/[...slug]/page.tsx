@@ -2,6 +2,11 @@
 
 import { notFound } from "next/navigation";
 
+import { ContestsBrowser } from "@/components/upshot/contests-browser";
+import { DashboardBrowser } from "@/components/upshot/dashboard-browser";
+import { EventsBrowser } from "@/components/upshot/events-browser";
+import { LeaderboardBrowser, LeaderboardHeader } from "@/components/upshot/leaderboard-browser";
+import { MarketplaceBrowser } from "@/components/upshot/marketplace-browser";
 import {
   UpshotLink,
   UpshotPageFrame,
@@ -11,10 +16,13 @@ import {
 import { StoreBrowseBar } from "@/components/upshot/store-browse-bar";
 import { StoreSliderHeader } from "@/components/upshot/store-slider-header";
 import {
+  allContests,
+  allEvents,
+  contestListings,
+  eventListings,
   featuredCards,
-  featuredContests,
-  featuredEvents,
   howToSteps,
+  leaderboardEntries,
   marketplaceListings,
   storePacks,
 } from "@/lib/upshot-data";
@@ -22,7 +30,6 @@ import type {
   ContestItem,
   EventItem,
   FeaturedCardItem,
-  MarketplaceListingItem,
   StorePackItem,
 } from "@/types/upshot";
 
@@ -108,74 +115,6 @@ function OverviewPanel({
       <div className="mt-3 font-good-headline-medium text-[30px] leading-[1.05] text-white">{value}</div>
       <div className="mt-2 font-sans text-[14px] leading-6 text-[#9f9f9f]">{note}</div>
     </div>
-  );
-}
-
-function EventOverviewCard({ event }: { event: EventItem }) {
-  return (
-    <article className="overflow-hidden rounded-[12px] border border-[#333] bg-[#111]">
-      <div className="flex flex-col gap-5 p-5 md:flex-row">
-        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[14px]">
-          <img src={event.heroImage} alt={event.title} className="h-full w-full object-cover" />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <img src={event.categoryIcon} alt="" className="h-4 w-4" />
-            <span className="font-good-headline-medium text-[16px] leading-5 text-[#d8d8d8]">{event.category}</span>
-          </div>
-          <h3 className="mt-3 font-good-headline-medium text-[26px] leading-[1.1] text-white uppercase">
-            {event.title}
-          </h3>
-          <p className="mt-3 font-sans text-[14px] leading-6 text-[#9f9f9f]">{event.statusLabel}</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <UpshotLink href={event.href} className={`${primaryButtonClass} px-5 py-2 text-[16px]`}>
-              View event
-            </UpshotLink>
-            <UpshotLink href="/contests" className={`${secondaryButtonClass} px-5 py-2 text-[16px]`}>
-              Browse contests
-            </UpshotLink>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function ContestOverviewCard({ contest }: { contest: ContestItem }) {
-  return (
-    <article className="rounded-[12px] border border-[#333] bg-[#111] p-5">
-      <div className="flex flex-col gap-5 md:flex-row md:items-center">
-        <div className="relative w-full overflow-hidden rounded-[10px] md:w-[180px] md:shrink-0">
-          <img src={contest.poster} alt={contest.title} className="aspect-square h-full w-full object-cover" />
-        </div>
-
-        <div className="flex-1">
-          <div className="flex items-center gap-2 font-good-headline-medium text-[16px] leading-5 text-[#d8d8d8]">
-            <img src="/images/gold.svg" alt="" className="h-4 w-4" />
-            <span>{contest.cardsRequired} cards required</span>
-          </div>
-          <h3 className="mt-3 font-good-headline-medium text-[26px] leading-[1.1] text-white uppercase">{contest.title}</h3>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {contest.categories.map((category) => (
-              <img
-                key={`${contest.title}-${category.label}`}
-                src={category.icon}
-                alt={category.label}
-                title={category.label}
-                className="h-[18px] w-[18px]"
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="grid gap-4 rounded-[12px] border border-[#2d2d2d] bg-[#151515] p-4 md:w-[220px] md:shrink-0">
-          <OverviewPanel label="Ends In" value={contest.endsIn} note={contest.ctaLabel} />
-          <UpshotLink href={contest.href} className={`${primaryButtonClass} w-full px-4 py-2 text-[16px]`}>
-            Open contest
-          </UpshotLink>
-        </div>
-      </div>
-    </article>
   );
 }
 
@@ -279,137 +218,13 @@ function StorePackGrid({ packs }: { packs: StorePackItem[] }) {
   );
 }
 
-function MarketplaceToolbar() {
-  return (
-    <div className="mt-5 md:mt-6">
-      <div className="rounded-full border border-[#2b2b2b] bg-[#131313] px-5 py-2.5 md:px-6">
-        <div className="flex items-center gap-3 overflow-x-auto">
-      <div className="inline-flex shrink-0 items-center gap-3">
-        <button
-          type="button"
-          className="inline-flex h-[44px] items-center rounded-full border border-[#5f96a1] bg-[#1b2628] px-6 font-sans text-[13px] leading-none text-white transition-colors duration-200"
-        >
-          All Cards
-        </button>
-        <button
-          type="button"
-          className="inline-flex h-[44px] items-center rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
-        >
-          By Event
-        </button>
-      </div>
-
-      <label className="inline-flex h-[44px] min-w-[320px] flex-1 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#171717] px-7 transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] focus-within:border-[#5f96a1] focus-within:bg-[#1b2628]">
-        <svg viewBox="0 0 20 20" className="h-4 w-4 text-[#8d8d8d]" fill="none" aria-hidden="true">
-          <path
-            d="M13.75 13.75L17 17M8.875 14.5a5.625 5.625 0 1 1 0-11.25 5.625 5.625 0 0 1 0 11.25Z"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search cards..."
-          className="w-full bg-transparent font-sans text-[13px] text-[#d7d7d7] outline-none placeholder:text-[#8d8d8d]"
-        />
-      </label>
-
-      <button
-        type="button"
-        className="inline-flex h-[44px] shrink-0 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
-      >
-        <span>Ending Soonest</span>
-        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-[#8a8a8a]" fill="none" aria-hidden="true">
-          <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-
-      <button
-        type="button"
-        className="inline-flex h-[44px] shrink-0 items-center gap-3 rounded-full border border-[#2e2e2e] bg-[#1a1a1a] px-6 font-sans text-[13px] leading-none text-[#bdbdbd] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
-      >
-        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-[#bcbcbc]" fill="none" aria-hidden="true">
-          <path
-            d="M3.5 4.5h13l-5.2 6.067V15.5l-2.6-1.3v-3.633L3.5 4.5Z"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span>Filter</span>
-      </button>
-
-      <button
-        type="button"
-        aria-label="Grid view"
-        className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-[#5f96a1] bg-[#1b2628] text-white transition-colors duration-200"
-      >
-        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-          <path d="M3 3h6v6H3V3Zm8 0h6v6h-6V3ZM3 11h6v6H3v-6Zm8 0h6v6h-6v-6Z" />
-        </svg>
-      </button>
-
-      <button
-        type="button"
-        aria-label="List view"
-        className="inline-flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-[#2e2e2e] bg-[#1a1a1a] text-[#8a8a8a] transition-colors duration-200 hover:border-[#5f96a1] hover:bg-[#1b2628] hover:text-white"
-      >
-        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-          <path d="M4 5h3v3H4V5Zm5 0h7v1.8H9V5Zm0 8.2h7V15H9v-1.8ZM4 12h3v3H4v-3Z" />
-        </svg>
-      </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MarketplaceListingCard({ listing }: { listing: MarketplaceListingItem }) {
-  return (
-    <article className="rounded-[10px] border border-[#242424] bg-[#151515] p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.24)]">
-      <UpshotLink href={listing.href} className="block rounded-[6px]">
-        <img
-          src={listing.image}
-          alt={listing.title}
-          title={listing.title}
-          className="w-full rounded-[6px] bg-[#0c0c0c] shadow-[0_0_0_1px_rgba(255,255,255,0.03)]"
-        />
-      </UpshotLink>
-
-      <div className="mt-4 border-t border-[#303030] pt-4">
-        <div className="grid gap-2">
-        <button
-          type="button"
-          className="inline-flex h-[43px] w-full items-center justify-center rounded-full bg-[#759da8] px-3 font-sans text-[15px] font-semibold text-[#121212]"
-        >
-          Login to Buy
-        </button>
-
-        <div className="flex items-center justify-center gap-4 px-2 pt-1 text-center">
-          <div className="font-sans text-[16px] leading-none text-[#b9b9b9]">
-            Available: <span className="text-white">{listing.available}</span>
-          </div>
-          <div className="h-[28px] w-px bg-[#3a3a3a]" />
-          <div className="font-sans text-[16px] leading-none text-[#b9b9b9]">
-            Burned: <span className="text-white">{listing.burned}</span>
-          </div>
-        </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function EventDetail({ event }: { event: EventItem }) {
   return (
     <>
       <PageHero
         eyebrow={event.category}
         title={event.title}
-        description={`Local event detail page rebuilt from the homepage capture. The original Upshot route is now mirrored here so you can tweak the UI flow without leaving the clone.`}
+        description={`Local event detail page mirrored from the current Upshot events catalog so you can tweak the flow, card storytelling, and follow-on actions without leaving the clone.`}
       >
         <div className="flex flex-wrap gap-3">
           <UpshotLink href="/events" className={`${secondaryButtonClass} px-5 py-2 text-[16px]`}>
@@ -743,60 +558,88 @@ function LoginPage() {
 }
 
 function EventsPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Events"
-        title="Event discovery now stays inside the clone"
-        description="This view gives you a local place to redesign event browsing, category filters, and detail-page transitions while keeping the captured homepage content intact."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/contests" className={primaryButtonClass}>
-            Jump to contests
-          </UpshotLink>
-          <UpshotLink href="/" className={secondaryButtonClass}>
-            Return home
-          </UpshotLink>
-        </div>
-      </PageHero>
+  const eventSlides = [
+    {
+      ctaHref: "/event/cmm8vp91w0j5m2hry0l2c3p2v",
+      ctaLabel: "View event",
+      description:
+        "A more app-like Events surface so live predictions, instant winners, and culture moments feel closer to Upshot instead of a static archive.",
+      eyebrow: "Events",
+      title: "Track the moment",
+    },
+    {
+      ctaHref: "/event/cmmeinwji1kbr2hmgkib3poex",
+      ctaLabel: "Browse instant wins",
+      description:
+        "Jump between entertainment, sports, markets, and internet culture while the catalog keeps the same bold rhythm as the Store page.",
+      eyebrow: "Live now",
+      title: "Play the headlines",
+    },
+    {
+      ctaHref: "/event/cmlyy429c00iu2hnur1ivka4u",
+      ctaLabel: "See what resolves next",
+      description:
+        "Keep the Events route feeling active and high-stakes with faster scanning, cleaner filters, and countdown-driven cards that push attention to what matters.",
+      eyebrow: "Resolution watch",
+      title: "Watch outcomes unfold",
+    },
+  ];
 
-      <SectionFrame title="Captured events" description="These event cards come directly from the homepage dataset captured during cloning.">
-        <div className="grid gap-4">
-          {featuredEvents.map((event) => (
-            <EventOverviewCard key={event.href} event={event} />
-          ))}
-        </div>
-      </SectionFrame>
-    </>
+  return (
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <StoreSliderHeader slides={eventSlides} descriptionClassName="max-w-[690px]" descriptionLineClamp={2} />
+
+      <div className="mt-10">
+        <h1 className="font-good-headline-medium text-[28px] leading-none text-white md:text-[33px]">Events</h1>
+      </div>
+
+      <div className="mt-6">
+        <EventsBrowser events={eventListings} />
+      </div>
+    </section>
   );
 }
 
 function ContestsPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Contests"
-        title="Contest navigation is now fully local"
-        description="This route keeps the contest journey inside the clone so you can iterate on list density, filter systems, entry prompts, and prize framing without touching production."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/store" className={primaryButtonClass}>
-            Open a pack
-          </UpshotLink>
-          <UpshotLink href="/" className={secondaryButtonClass}>
-            Back home
-          </UpshotLink>
-        </div>
-      </PageHero>
+  const contestSlides = [
+    {
+      ctaHref: "/contests/ncaa-pick-5-unlimited",
+      ctaLabel: "View Contest",
+      description: "Build lineups, track locks, and keep the contests page feeling like a real Upshot competition surface instead of a generic list.",
+      eyebrow: "Contests",
+      title: "Make your call",
+    },
+    {
+      ctaHref: "/contests/pick-5-mid-march-prime-time",
+      ctaLabel: "View Contest",
+      description: "Browse live contests, compare prize pools, and move through current entries with the same tighter rhythm as the store and marketplace routes.",
+      eyebrow: "Live entries",
+      title: "Pick your lineup",
+    },
+    {
+      ctaHref: "/contests/pick-3-early-april-sports",
+      ctaLabel: "View Contest",
+      description: "Surface lineup lock timing, resolution windows, and contest pressure in a layout that feels purpose-built for Upshot’s prediction flow.",
+      eyebrow: "Contest flow",
+      title: "Chase the prize",
+    },
+  ];
 
-      <SectionFrame title="Featured contests" description="Contest timers are still snapshot values from the source capture.">
-        <div className="grid gap-4">
-          {featuredContests.map((contest) => (
-            <ContestOverviewCard key={contest.href} contest={contest} />
-          ))}
+  return (
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <StoreSliderHeader slides={contestSlides} descriptionClassName="max-w-[690px]" />
+
+      <div className="mt-10">
+        <div>
+          <h1 className="font-good-headline-medium text-[28px] leading-none text-white md:text-[33px]">Contests</h1>
+          <p className="mt-4 font-sans text-[15px] leading-6 text-[#b0b0b0]">Fantasy-style prediction contests.</p>
         </div>
-      </SectionFrame>
-    </>
+      </div>
+
+      <div className="mt-6">
+        <ContestsBrowser contests={contestListings} />
+      </div>
+    </section>
   );
 }
 
@@ -833,65 +676,53 @@ function MarketplacePage() {
         <h1 className="font-good-headline-medium text-[28px] leading-none text-white md:text-[33px]">Marketplace</h1>
       </div>
 
-      <div>
-        <MarketplaceToolbar />
-      </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 md:mt-8 md:grid-cols-4 md:gap-x-5 md:gap-y-6 xl:gap-x-6 xl:gap-y-7">
-        {marketplaceListings.map((listing, index) => (
-          <MarketplaceListingCard key={`${listing.title}-${index}`} listing={listing} />
-        ))}
+      <div className="mt-6">
+        <MarketplaceBrowser listings={marketplaceListings} />
       </div>
     </section>
   );
 }
 
 function LeaderboardPage() {
-  const leaderboard = [...featuredCards]
-    .sort((left, right) => right.claimed / right.supply - left.claimed / left.supply)
-    .slice(0, 5);
+  const leaderboardSlides = [
+    {
+      ctaHref: "/leaderboard",
+      ctaLabel: "View rankings",
+      description:
+        "Track the season race, compare total XP swings, and keep the leaderboard feeling like a live Upshot surface instead of a static stats page.",
+      eyebrow: "Leaderboard",
+      title: "Climb the table",
+    },
+    {
+      ctaHref: "/leaderboard",
+      ctaLabel: "Check the season",
+      description:
+        "Follow rank changes, prize positions, and boost totals in a layout that matches the rest of the product instead of breaking into a separate admin style.",
+      eyebrow: "Season race",
+      title: "Chase the top spot",
+    },
+    {
+      ctaHref: "/leaderboard",
+      ctaLabel: "Compare players",
+      description:
+        "Keep monthly standings, lifetime snapshots, and reward pressure readable with the same polished rhythm already used across Store, Events, and Marketplace.",
+      eyebrow: "XP standings",
+      title: "Watch the climb",
+    },
+  ];
 
   return (
-    <>
-      <PageHero
-        eyebrow="Leaderboard"
-        title="Prototype ranking and status layers locally"
-        description="This page gives you a safe place to shape leaderboard UX, trophy states, and progression mechanics without relying on the production app shell."
-      >
-        <div className="flex flex-wrap gap-3">
-          <UpshotLink href="/cards" className={primaryButtonClass}>
-            Inspect cards
-          </UpshotLink>
-          <UpshotLink href="/contests" className={secondaryButtonClass}>
-            Open contests
-          </UpshotLink>
-        </div>
-      </PageHero>
+    <section className="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-8 md:px-8 md:pb-16 md:pt-10 xl:px-14">
+      <StoreSliderHeader slides={leaderboardSlides} descriptionClassName="max-w-[690px]" />
 
-      <SectionFrame title="Top snapshot entries" description="Derived from the captured featured-card dataset to avoid dead routes while you design the real leaderboard.">
-        <div className="grid gap-4">
-          {leaderboard.map((card, index) => (
-            <article
-              key={card.href}
-              className="flex flex-col gap-4 rounded-[12px] border border-[#2d2d2d] bg-[#111] p-5 md:flex-row md:items-center"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#2d2d2d] bg-[#171717] font-good-headline-medium text-[22px] text-white">
-                {index + 1}
-              </div>
-              <div className="flex-1">
-                <div className="font-good-headline-medium text-[24px] leading-[1.1] text-white uppercase">{card.title}</div>
-                <div className="mt-2 font-sans text-[14px] leading-6 text-[#9f9f9f]">
-                  {card.claimed} claimed out of {card.supply} total cards
-                </div>
-              </div>
-              <UpshotLink href={card.href} className={`${primaryButtonClass} px-5 py-2 text-[16px]`}>
-                Open card
-              </UpshotLink>
-            </article>
-          ))}
-        </div>
-      </SectionFrame>
-    </>
+      <div className="mt-10">
+        <LeaderboardHeader />
+      </div>
+
+      <div className="mt-6">
+        <LeaderboardBrowser entriesByPeriod={leaderboardEntries} />
+      </div>
+    </section>
   );
 }
 
@@ -918,6 +749,10 @@ function CardsPage() {
       </SectionFrame>
     </>
   );
+}
+
+function DashboardPage() {
+  return <DashboardBrowser cards={featuredCards.slice(0, 6)} contests={contestListings.slice(0, 3)} />;
 }
 
 function UnknownRoute({ slug }: { slug: string[] }) {
@@ -982,11 +817,14 @@ export default async function UpshotSubpage({
     case "login":
       content = <LoginPage />;
       break;
+    case "dashboard":
+      content = <DashboardPage />;
+      break;
     case "events":
       content = <EventsPage />;
       break;
     case "event": {
-      const event = findRouteItem(featuredEvents, path);
+      const event = findRouteItem(allEvents, path);
       content = event ? <EventDetail event={event} /> : <UnknownRoute slug={slug} />;
       break;
     }
@@ -996,8 +834,8 @@ export default async function UpshotSubpage({
         break;
       }
 
-      content = findRouteItem(featuredContests, path) ? (
-        <ContestDetail contest={findRouteItem(featuredContests, path)!} />
+      content = findRouteItem(allContests, path) ? (
+        <ContestDetail contest={findRouteItem(allContests, path)!} />
       ) : (
         <UnknownRoute slug={slug} />
       );

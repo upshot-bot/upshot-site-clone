@@ -19,11 +19,20 @@ export interface HowToStep {
   title: string;
 }
 
+export type EventStatus = "active" | "resolved";
+
+export type EventType = "instant-win" | "gold" | "shots" | "cash";
+
 export interface EventItem {
+  badgeLabel?: string;
   category: string;
   categoryIcon: string;
+  eventType: EventType;
   heroImage: string;
   href: string;
+  isFeatured?: boolean;
+  listingStatus: EventStatus;
+  resolutionDate?: string;
   statusLabel: string;
   thumbnails: string[];
   title: string;
@@ -33,6 +42,8 @@ export interface ContestCategory {
   icon: string;
   label: string;
 }
+
+export type ContestStatus = "live" | "open" | "completed";
 
 export interface ContestItem {
   cardsRequired: number;
@@ -48,6 +59,7 @@ export interface ContestItem {
   resolutionLabel: string;
   resolutionNote: string;
   resolutionValue: string;
+  status: ContestStatus;
   title: string;
 }
 
@@ -60,15 +72,38 @@ export interface FeaturedCardItem {
   title: string;
 }
 
+export type LeaderboardPeriod = "season" | "lifetime";
+
+export interface LeaderboardEntry {
+  name: string;
+  otherBoosts: string;
+  prize: string;
+  rank: number;
+  setBoost: string;
+  totalXp: string;
+  walletTag: string;
+  winningCardXp: string;
+}
+
+export type MarketplaceRarity = "common" | "uncommon" | "rare" | "legendary";
+
+export type MarketplaceEventType = "instant-win" | "gold" | "shots" | "cash";
+
 export interface MarketplaceListingItem {
   available: number;
   buttonLabel: string;
   burned: number;
+  category: string;
+  categoryIcon: string;
   editionLabel: string;
+  eventTitle: string;
+  eventType: MarketplaceEventType;
   href: string;
   image: string;
+  isFeatured?: boolean;
   price: string;
   priceSuffix: string;
+  rarity: MarketplaceRarity;
   title: string;
 }
 

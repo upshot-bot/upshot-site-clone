@@ -97,4 +97,67 @@
   .font-good-headline-bold {
     font-family: var(--font-good-headline-bold), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
+
+  .event-collage-track {
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  .event-collage-track-up {
+    animation-name: upshot-featured-event-slide-up;
+  }
+
+  .event-collage-track-down {
+    animation-name: upshot-featured-event-slide-down;
+  }
+
+  .featured-card-hover-shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.1), transparent);
+    width: 100px;
+    animation: upshot-featured-card-shimmer 2.8s linear infinite;
+    transform: skew(-20deg);
+  }
+}
+
+@keyframes upshot-featured-event-slide-up {
+  from {
+    transform: translate3d(0, var(--loop-offset), 0);
+  }
+
+  to {
+    transform: translate3d(0, calc(var(--loop-offset) - var(--loop-distance)), 0);
+  }
+}
+
+@keyframes upshot-featured-event-slide-down {
+  from {
+    transform: translate3d(0, calc(var(--loop-offset) - var(--loop-distance)), 0);
+  }
+
+  to {
+    transform: translate3d(0, var(--loop-offset), 0);
+  }
+}
+
+@keyframes upshot-featured-card-shimmer {
+  from {
+    transform: translate3d(-160px, 0, 0) skew(-20deg);
+  }
+
+  30%,
+  to {
+    transform: translate3d(320px, 0, 0) skew(-20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-collage-track {
+    animation: none !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  .featured-card-hover-shimmer {
+    animation: none !important;
+    transform: translate3d(0, 0, 0) skew(-20deg) !important;
+  }
 }

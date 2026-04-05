@@ -14,9 +14,11 @@ type StoreSliderSlide = {
 
 export function StoreSliderHeader({
   descriptionClassName,
+  descriptionLineClamp,
   slides,
 }: {
   descriptionClassName?: string;
+  descriptionLineClamp?: number;
   slides: StoreSliderSlide[];
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,6 +40,15 @@ export function StoreSliderHeader({
   }
 
   const activeSlide = slides[activeIndex];
+  const descriptionStyle =
+    typeof descriptionLineClamp === "number"
+      ? ({
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: descriptionLineClamp,
+          display: "-webkit-box",
+          overflow: "hidden",
+        } as const)
+      : undefined;
 
   return (
     <div className="overflow-hidden rounded-[26px] border border-[#232323] bg-[radial-gradient(circle_at_top_left,_rgba(137,253,252,0.09),_transparent_34%),linear-gradient(180deg,#171717_0%,#0f0f0f_100%)] px-7 py-7 md:px-14 md:py-12">
@@ -52,6 +63,7 @@ export function StoreSliderHeader({
           className={`mt-6 max-w-[500px] font-sans text-[18px] leading-[1.9] text-[#cdcdcd] ${
             descriptionClassName ?? ""
           }`}
+          style={descriptionStyle}
         >
           {activeSlide.description}
         </p>

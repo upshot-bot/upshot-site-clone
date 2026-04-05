@@ -2,9 +2,9 @@
 
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
+import { BookOpen } from "lucide-react";
 import Link from "next/link";
 
-import { DocsIcon } from "@/components/icons";
 import { AnalyticsBanner } from "@/components/upshot/analytics-banner";
 import { footerLinks, navLinks, socialLinks } from "@/lib/upshot-data";
 
@@ -54,7 +54,7 @@ export function UpshotHeader() {
               <UpshotLink
                 key={link.label}
                 href={link.href}
-                className="font-sans text-[17px] font-medium leading-6 text-white/82 transition-colors hover:text-white"
+                className="font-sans text-[17px] font-medium leading-6 text-white transition-colors hover:text-[#89fdfc]"
               >
                 {link.label}
               </UpshotLink>
@@ -65,10 +65,10 @@ export function UpshotHeader() {
         <div className="flex items-center gap-2 md:gap-3">
           <UpshotLink
             href="https://docs.upshot.cards/"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white/60 transition-colors hover:text-white/85 lg:flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-[#171717] text-white transition-colors hover:border-[#89fdfc] hover:text-[#89fdfc] lg:flex"
             aria-label="Docs"
           >
-            <DocsIcon className="h-4 w-4" />
+            <BookOpen className="h-[18px] w-[18px]" strokeWidth={2} />
           </UpshotLink>
           <UpshotLink
             href="/login"
@@ -107,7 +107,7 @@ export function UpshotFooter() {
             <UpshotLink
               key={link.label}
               href={link.href}
-              className="font-sans text-[14px] leading-5 text-[#999] underline underline-offset-4 transition-colors hover:text-white"
+              className="font-sans text-[14px] leading-5 text-white transition-colors hover:text-[#89fdfc]"
             >
               {link.label}
             </UpshotLink>

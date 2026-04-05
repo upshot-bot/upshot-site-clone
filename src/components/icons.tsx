@@ -11,11 +11,10 @@ export function CloseIcon(props: SVGProps<SVGSVGElement>) {
 
 export function DocsIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
-      <path d="M6 4.5h8.5A3.5 3.5 0 0 1 18 8v11H9A3 3 0 0 0 6 22.5V4.5Z" />
-      <path d="M18 19H9A3 3 0 0 0 6 22" />
-      <path d="M9.5 9.5h4.5" />
-      <path d="M9.5 13h4.5" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 6.4c-1.45-1.18-3.3-1.78-5.55-1.78A1.35 1.35 0 0 0 5.1 5.97v9.9a1.35 1.35 0 0 0 1.35 1.35c2.15 0 4 .52 5.55 1.57" />
+      <path d="M12 6.4c1.45-1.18 3.3-1.78 5.55-1.78a1.35 1.35 0 0 1 1.35 1.35v9.9a1.35 1.35 0 0 1-1.35 1.35c-2.15 0-4 .52-5.55 1.57" />
+      <path d="M12 6.55v12.1" />
     </svg>
   );
 }

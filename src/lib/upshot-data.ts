@@ -3,6 +3,8 @@ import type {
   EventItem,
   FeaturedCardItem,
   HeroAction,
+  LeaderboardEntry,
+  LeaderboardPeriod,
   HowToStep,
   MarketplaceListingItem,
   NavLink,
@@ -10,6 +12,7 @@ import type {
 } from "@/types/upshot";
 
 export const navLinks: NavLink[] = [
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/store", label: "Store" },
   { href: "/contests", label: "Contests" },
   { href: "/marketplace", label: "Marketplace" },
@@ -24,10 +27,7 @@ export const heroActions: HeroAction[] = [
 
 export const howToSteps: HowToStep[] = [
   {
-    description: "Buy a pack",
-    descriptionLinkHref: "/store",
-    descriptionLinkLabel: "Buy a pack",
-    descriptionSuffix: " and open it to reveal prediction cards.",
+    description: "Buy a pack and open it to reveal prediction cards.",
     href: "/store",
     mediaSrc: "/videos/onboard/open-mystery-packs-compressed.mp4",
     title: "Open Mystery Packs",
@@ -59,13 +59,17 @@ export const howToSteps: HowToStep[] = [
   },
 ];
 
+const repeatEventThumbnails = (heroImage: string) => Array.from({ length: 8 }, () => heroImage);
+
 export const featuredEvents: EventItem[] = [
   {
     category: "Sports",
     categoryIcon: "/images/categories/sports.svg",
+    eventType: "cash",
     heroImage: "/images/events/japan-f1-event.png",
     href: "/event/cmmu4p2w7cf1q2imurbvldwva",
     statusLabel: "Event has ended",
+    listingStatus: "resolved",
     thumbnails: [
       "/images/events/japan-f1-card-1.png",
       "/images/events/japan-f1-card-2.png",
@@ -81,9 +85,11 @@ export const featuredEvents: EventItem[] = [
   {
     category: "Sports",
     categoryIcon: "/images/categories/sports.svg",
+    eventType: "cash",
     heroImage: "/images/events/ncaa-event.png",
     href: "/event/cmmp521pg3gol2hprd8s6orwa",
     statusLabel: "in 9 days",
+    listingStatus: "active",
     thumbnails: [
       "/images/events/ncaa-card-1.png",
       "/images/events/ncaa-card-2.png",
@@ -97,6 +103,165 @@ export const featuredEvents: EventItem[] = [
     title: "NCAA Men’s Championship Comes Down To Five Or Fewer",
   },
 ];
+
+function createLiveEvent({
+  badgeLabel,
+  category,
+  categoryIcon,
+  eventType,
+  heroImage,
+  href,
+  isFeatured,
+  resolutionDate,
+  title,
+}: Pick<
+  EventItem,
+  "badgeLabel" | "category" | "categoryIcon" | "eventType" | "heroImage" | "href" | "isFeatured" | "resolutionDate" | "title"
+>): EventItem {
+  return {
+    badgeLabel,
+    category,
+    categoryIcon,
+    eventType,
+    heroImage,
+    href,
+    isFeatured,
+    listingStatus: "active",
+    resolutionDate,
+    statusLabel: badgeLabel ?? "",
+    thumbnails: repeatEventThumbnails(heroImage),
+    title,
+  };
+}
+
+export const eventListings: EventItem[] = [
+  createLiveEvent({
+    badgeLabel: "in over 42 years",
+    category: "Sports",
+    categoryIcon: "/images/categories/sports.svg",
+    eventType: "instant-win",
+    heroImage: "/images/events/live/f1-au-gp-instant-winners.png",
+    href: "/event/cmm8vp91w0j5m2hry0l2c3p2v",
+    isFeatured: true,
+    resolutionDate: "Jan 1, 2069",
+    title: "F1 AU GP: Instant Winners",
+  }),
+  createLiveEvent({
+    badgeLabel: "in over 42 years",
+    category: "Entertainment",
+    categoryIcon: "/images/categories/entertainment.svg",
+    eventType: "instant-win",
+    heroImage: "/images/events/live/2026-oscars-instant-winners-ii.png",
+    href: "/event/cmmeinwji1kbr2hmgkib3poex",
+    isFeatured: true,
+    resolutionDate: "Jan 1, 2069",
+    title: "2026 Oscars: Instant Winners II",
+  }),
+  createLiveEvent({
+    badgeLabel: "in over 42 years",
+    category: "Entertainment",
+    categoryIcon: "/images/categories/entertainment.svg",
+    eventType: "instant-win",
+    heroImage: "/images/events/live/2026-oscars-instant-winners.png",
+    href: "/event/cmme7rssp1atw2hr2vb43jwof",
+    isFeatured: true,
+    resolutionDate: "Jan 1, 2069",
+    title: "2026 Oscars: Instant Winners",
+  }),
+  createLiveEvent({
+    badgeLabel: "in over 2 years",
+    category: "Finance",
+    categoryIcon: "/images/categories/finance.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/ticker-day-arrives-spacex-stock-symbol.png",
+    href: "/event/cmlta8pvw00182hqnjxuggxhm",
+    isFeatured: true,
+    resolutionDate: "Dec 30, 2028",
+    title: "Ticker Day Arrives as SpaceX Unveils Its Stock Symbol",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 9 months",
+    category: "Internet Culture",
+    categoryIcon: "/images/categories/internet-culture.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/mrbeast-500-million-youtube-subscribers.png",
+    href: "/event/cmmet3qsa23pm2hr2r53fwzvq",
+    resolutionDate: "Dec 31, 2026",
+    title: "MrBeast Hits 500 Million YouTube Subscribers",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 9 months",
+    category: "Politics",
+    categoryIcon: "/images/categories/politics.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/epstein-documents-public-stage.png",
+    href: "/event/cmnfqj4tm6dth2hmh5yz1m5rf",
+    resolutionDate: "Dec 30, 2026",
+    title: "A New Wave of Epstein Documents Hits the Public Stage",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 9 months",
+    category: "Entertainment",
+    categoryIcon: "/images/categories/entertainment.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/celebrity-marriage-meltdown-2026.png",
+    href: "/event/cmmumoimhdoc12it4v7pfn5iw",
+    resolutionDate: "Dec 30, 2026",
+    title: "Celebrity Marriage Meltdown 2026",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 9 months",
+    category: "Politics",
+    categoryIcon: "/images/categories/politics.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/alien-life-before-2027.png",
+    href: "/event/cmmetunk424fj2hmgqwvrujd1",
+    resolutionDate: "Dec 30, 2026",
+    title: "US Government Confirms Alien Life Before 2027",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 9 months",
+    category: "Entertainment",
+    categoryIcon: "/images/categories/entertainment.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/kylie-timothee-engagement-watch-2026.png",
+    href: "/event/cmlyybbml00jv2hnrfi09bx7p",
+    resolutionDate: "Dec 30, 2026",
+    title: "Kylie Jenner and Timothee Chalamet Engagement Watch 2026",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 6 months",
+    category: "Crypto",
+    categoryIcon: "/images/categories/crypto.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/sam-bankman-fried-walks-free-by-summer-2026.png",
+    href: "/event/cmlyy429c00iu2hnur1ivka4u",
+    resolutionDate: "Sep 22, 2026",
+    title: "Sam Bankman-Fried Walks Free by Summer (2026)",
+  }),
+  createLiveEvent({
+    badgeLabel: "in 3 months",
+    category: "Finance",
+    categoryIcon: "/images/categories/finance.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/how-many-4t-titans-stand-by-mid-2026.png",
+    href: "/event/cmnfqfqrv6d2w2hmhxg0wdw0p",
+    resolutionDate: "Jun 29, 2026",
+    title: "How Many $4T Titans Stand by Mid-2026",
+  }),
+  createLiveEvent({
+    badgeLabel: "in about 1 month",
+    category: "Gaming",
+    categoryIcon: "/images/categories/gaming.svg",
+    eventType: "cash",
+    heroImage: "/images/events/live/valorant-vct-pacific-stage-1-championship-winner-2026.png",
+    href: "/event/cmm22epzp01uu2hmr4klinovg",
+    resolutionDate: "May 17, 2026",
+    title: "Valorant VCT Pacific: Stage 1 Championship Winner (2026)",
+  }),
+];
+
+export const allEvents: EventItem[] = [...featuredEvents, ...eventListings];
 
 export const featuredContests: ContestItem[] = [
   {
@@ -113,6 +278,7 @@ export const featuredContests: ContestItem[] = [
     resolutionLabel: "Contest Complete",
     resolutionNote: "Prizes distributed",
     resolutionValue: "March 30 at 14:00 UTC",
+    status: "completed",
     title: "Pick 3: Sports Madness",
   },
   {
@@ -134,6 +300,7 @@ export const featuredContests: ContestItem[] = [
     resolutionLabel: "Contest Complete",
     resolutionNote: "Prizes distributed",
     resolutionValue: "April 15 at 18:00 UTC",
+    status: "open",
     title: "Pick 5: Mid-March Prime Time",
   },
   {
@@ -154,6 +321,7 @@ export const featuredContests: ContestItem[] = [
     resolutionLabel: "Contest Complete",
     resolutionNote: "Prizes distributed",
     resolutionValue: "April 1 at 14:00 UTC",
+    status: "completed",
     title: "Pick 5: March Markets and Power",
   },
   {
@@ -174,9 +342,88 @@ export const featuredContests: ContestItem[] = [
     resolutionLabel: "Contest Complete",
     resolutionNote: "Prizes distributed",
     resolutionValue: "April 1 at 14:00 UTC",
+    status: "completed",
     title: "Pick 5: March Screens and Scoreboards",
   },
 ];
+
+export const contestListings: ContestItem[] = [
+  {
+    cardsRequired: 5,
+    categories: [{ icon: "/images/categories/sports.svg", label: "Sports" }],
+    ctaLabel: "View Contest",
+    endsIn: "5d",
+    href: "/contests/ncaa-pick-5-unlimited",
+    lineupLockLabel: "Lineup Lock",
+    lineupLockNote: "Last chance to submit",
+    lineupLockValue: "April 5 at 02:10 UTC",
+    poster: "/images/contests/live/ncaa-pick-5-unlimited.png",
+    prizePool: "$410.72",
+    resolutionLabel: "Contest Complete",
+    resolutionNote: "Prizes distributed",
+    resolutionValue: "April 8 at 14:50 UTC",
+    status: "open",
+    title: "NCAA Pick 5 Unlimited",
+  },
+  {
+    cardsRequired: 3,
+    categories: [{ icon: "/images/categories/sports.svg", label: "Sports" }],
+    ctaLabel: "View Contest",
+    endsIn: "5d",
+    href: "/contests/ncaa-pick-3-unlimited",
+    lineupLockLabel: "Lineup Lock",
+    lineupLockNote: "Last chance to submit",
+    lineupLockValue: "April 5 at 02:09 UTC",
+    poster: "/images/contests/live/ncaa-pick-3-unlimited.png",
+    prizePool: "$410.68",
+    resolutionLabel: "Contest Complete",
+    resolutionNote: "Prizes distributed",
+    resolutionValue: "April 8 at 14:50 UTC",
+    status: "open",
+    title: "NCAA Pick 3 Unlimited",
+  },
+  {
+    cardsRequired: 3,
+    categories: [{ icon: "/images/categories/sports.svg", label: "Sports" }],
+    ctaLabel: "Entries Closed • View Contest",
+    endsIn: "3d",
+    href: "/contests/pick-3-early-april-sports",
+    lineupLockLabel: "Lineup Lock",
+    lineupLockNote: "Locked",
+    lineupLockValue: "April 3 at 01:25 UTC",
+    poster: "/images/contests/live/pick-3-early-april-sports.png",
+    prizePool: "$611.62",
+    resolutionLabel: "Contest Complete",
+    resolutionNote: "Prizes distributed",
+    resolutionValue: "April 6 at 13:45 UTC",
+    status: "live",
+    title: "Pick 3: Early April Sports",
+  },
+  {
+    cardsRequired: 5,
+    categories: [
+      { icon: "/images/categories/entertainment.svg", label: "Entertainment" },
+      { icon: "/images/categories/internet-culture.svg", label: "Internet Culture" },
+      { icon: "/images/categories/gaming.svg", label: "Gaming" },
+      { icon: "/images/categories/sports.svg", label: "Sports" },
+    ],
+    ctaLabel: "Entries Closed • View Contest",
+    endsIn: "12d",
+    href: "/contests/pick-5-mid-march-prime-time",
+    lineupLockLabel: "Lineup Lock",
+    lineupLockNote: "Locked",
+    lineupLockValue: "April 1 at 18:00 UTC",
+    poster: "/images/contests/live/pick-5-mid-march-prime-time.png",
+    prizePool: "$2,776.86",
+    resolutionLabel: "Contest Complete",
+    resolutionNote: "Prizes distributed",
+    resolutionValue: "April 15 at 18:00 UTC",
+    status: "live",
+    title: "Pick 5: Mid-March Prime Time",
+  },
+];
+
+export const allContests: ContestItem[] = [...featuredContests, ...contestListings];
 
 export const featuredCards: FeaturedCardItem[] = [
   {
@@ -245,6 +492,32 @@ export const featuredCards: FeaturedCardItem[] = [
   },
 ];
 
+const homepageFeaturedEventHeroMap: Partial<Record<EventItem["category"], string>> = {
+  Sports: "/images/events/japan-f1-event.png",
+  Entertainment: "/images/events/live/celebrity-marriage-meltdown-2026.png",
+  Finance: "/images/events/live/ticker-day-arrives-spacex-stock-symbol.png",
+  "Internet Culture": "/images/events/live/mrbeast-500-million-youtube-subscribers.png",
+  Politics: "/images/events/live/epstein-documents-public-stage.png",
+  Crypto: "/images/events/live/sam-bankman-fried-walks-free-by-summer-2026.png",
+  Gaming: "/images/events/live/valorant-vct-pacific-stage-1-championship-winner-2026.png",
+};
+
+const homepageFeaturedEventThumbnailPool = featuredCards.map(({ image }) => image);
+
+function createHomepageFeaturedEventThumbnails() {
+  const baseThumbnails = Array.from({ length: 4 }, (_, index) => {
+    return homepageFeaturedEventThumbnailPool[index % homepageFeaturedEventThumbnailPool.length];
+  });
+
+  return [...baseThumbnails, ...baseThumbnails];
+}
+
+export const homepageFeaturedEvents: EventItem[] = eventListings.slice(0, 6).map((event) => ({
+  ...event,
+  heroImage: homepageFeaturedEventHeroMap[event.category] ?? event.heroImage,
+  thumbnails: createHomepageFeaturedEventThumbnails(),
+}));
+
 const marketplaceBlueprints = [
   { available: 10, burned: 2479, cardIndex: 0, editionLabel: "1 / 5", price: "0.034" },
   { available: 2, burned: 1801, cardIndex: 1, editionLabel: "2 / 10", price: "0.021" },
@@ -273,18 +546,88 @@ const marketplaceBlueprints = [
   { available: 14, burned: 322, cardIndex: 5, editionLabel: "8 / 40", price: "0.012" },
 ] as const;
 
+const marketplaceCardMeta = [
+  {
+    category: "Politics",
+    categoryIcon: "/images/categories/politics.svg",
+    eventTitle: "Cuba and Washington Brinkmanship",
+    eventType: "cash",
+    rarity: "rare",
+  },
+  {
+    category: "Politics",
+    categoryIcon: "/images/categories/politics.svg",
+    eventTitle: "Washington and Tehran Ceasefire Window",
+    eventType: "cash",
+    rarity: "uncommon",
+  },
+  {
+    category: "Sports",
+    categoryIcon: "/images/categories/sports.svg",
+    eventTitle: "Japan F1 GP Performance Board",
+    eventType: "gold",
+    rarity: "common",
+  },
+  {
+    category: "Gaming",
+    categoryIcon: "/images/categories/gaming.svg",
+    eventTitle: "Super Mario Galaxy Opening Weekend",
+    eventType: "shots",
+    rarity: "uncommon",
+  },
+  {
+    category: "Sports",
+    categoryIcon: "/images/categories/sports.svg",
+    eventTitle: "Miami Open Men’s Final",
+    eventType: "cash",
+    rarity: "rare",
+  },
+  {
+    category: "Entertainment",
+    categoryIcon: "/images/categories/entertainment.svg",
+    eventTitle: "Mega Evolution - Perfect Order",
+    eventType: "gold",
+    isFeatured: true,
+    rarity: "legendary",
+  },
+  {
+    category: "Crypto",
+    categoryIcon: "/images/categories/crypto.svg",
+    eventTitle: "Upshot Q1 Mainnet Pack Ripping",
+    eventType: "instant-win",
+    isFeatured: true,
+    rarity: "legendary",
+  },
+  {
+    category: "Internet Culture",
+    categoryIcon: "/images/categories/internet-culture.svg",
+    eventTitle: "X Dislike Button Rollout",
+    eventType: "shots",
+    rarity: "common",
+  },
+] as const satisfies ReadonlyArray<
+  Pick<MarketplaceListingItem, "category" | "categoryIcon" | "eventTitle" | "eventType" | "isFeatured" | "rarity">
+>;
+
 export const marketplaceListings: MarketplaceListingItem[] = marketplaceBlueprints.map((blueprint, index) => {
   const card = featuredCards[blueprint.cardIndex];
+  const metadata = marketplaceCardMeta[blueprint.cardIndex];
 
   return {
     available: blueprint.available,
     buttonLabel: "Buy now",
     burned: blueprint.burned,
+    category: metadata.category,
+    categoryIcon: metadata.categoryIcon,
     editionLabel: blueprint.editionLabel,
+    eventTitle: metadata.eventTitle,
+    eventType: metadata.eventType,
     href: `${card.href}?listing=${index + 1}`,
     image: card.image,
+    isFeatured: "isFeatured" in metadata ? metadata.isFeatured : undefined,
     price: blueprint.price,
     priceSuffix: "ETH",
+    rarity: metadata.rarity,
     title: card.title,
   };
 });
@@ -524,3 +867,210 @@ export const socialLinks = [
   { href: "https://x.com/upshot_cards", icon: "/images/social-x.svg", label: "X" },
   { href: "https://discord.com/invite/upshot", icon: "/images/social-discord.svg", label: "Discord" },
 ] as const;
+
+export const leaderboardEntries: Record<LeaderboardPeriod, LeaderboardEntry[]> = {
+  season: [
+    {
+      name: "Simmo",
+      otherBoosts: "1,420",
+      prize: "$5,000",
+      rank: 1,
+      setBoost: "2,180",
+      totalXp: "15,840",
+      walletTag: "0xsimmo...92a1",
+      winningCardXp: "12,240",
+    },
+    {
+      name: "Mamba.eth",
+      otherBoosts: "1,240",
+      prize: "$2,500",
+      rank: 2,
+      setBoost: "1,960",
+      totalXp: "14,760",
+      walletTag: "@mamba",
+      winningCardXp: "11,560",
+    },
+    {
+      name: "CardShark",
+      otherBoosts: "980",
+      prize: "$1,250",
+      rank: 3,
+      setBoost: "1,720",
+      totalXp: "13,520",
+      walletTag: "0x8b7e...f143",
+      winningCardXp: "10,820",
+    },
+    {
+      name: "AlphaArc",
+      otherBoosts: "860",
+      prize: "500 Gold",
+      rank: 4,
+      setBoost: "1,480",
+      totalXp: "11,940",
+      walletTag: "@alphaarc",
+      winningCardXp: "9,600",
+    },
+    {
+      name: "PolePosition",
+      otherBoosts: "720",
+      prize: "250 Gold",
+      rank: 5,
+      setBoost: "1,260",
+      totalXp: "10,780",
+      walletTag: "0xf1au...7782",
+      winningCardXp: "8,800",
+    },
+    {
+      name: "NovaTag",
+      otherBoosts: "640",
+      prize: "100 Gold",
+      rank: 6,
+      setBoost: "1,120",
+      totalXp: "9,960",
+      walletTag: "@novatag",
+      winningCardXp: "8,200",
+    },
+    {
+      name: "CultureFlip",
+      otherBoosts: "590",
+      prize: "50 Gold",
+      rank: 7,
+      setBoost: "980",
+      totalXp: "9,220",
+      walletTag: "0xcult...4420",
+      winningCardXp: "7,650",
+    },
+    {
+      name: "TapeDelayed",
+      otherBoosts: "520",
+      prize: "25 Gold",
+      rank: 8,
+      setBoost: "910",
+      totalXp: "8,740",
+      walletTag: "@tapedelayed",
+      winningCardXp: "7,310",
+    },
+    {
+      name: "0xForecast",
+      otherBoosts: "470",
+      prize: "10 Gold",
+      rank: 9,
+      setBoost: "860",
+      totalXp: "8,180",
+      walletTag: "0xfore...210c",
+      winningCardXp: "6,850",
+    },
+    {
+      name: "DailyClaimr",
+      otherBoosts: "430",
+      prize: "5 Gold",
+      rank: 10,
+      setBoost: "790",
+      totalXp: "7,820",
+      walletTag: "@dailyclaimr",
+      winningCardXp: "6,600",
+    },
+  ],
+  lifetime: [
+    {
+      name: "Simmo",
+      otherBoosts: "8,940",
+      prize: "$10,000",
+      rank: 1,
+      setBoost: "12,460",
+      totalXp: "86,420",
+      walletTag: "0xsimmo...92a1",
+      winningCardXp: "65,020",
+    },
+    {
+      name: "Mamba.eth",
+      otherBoosts: "8,210",
+      prize: "$5,000",
+      rank: 2,
+      setBoost: "11,980",
+      totalXp: "81,330",
+      walletTag: "@mamba",
+      winningCardXp: "61,140",
+    },
+    {
+      name: "CardShark",
+      otherBoosts: "7,540",
+      prize: "$2,500",
+      rank: 3,
+      setBoost: "10,860",
+      totalXp: "75,680",
+      walletTag: "0x8b7e...f143",
+      winningCardXp: "57,280",
+    },
+    {
+      name: "AlphaArc",
+      otherBoosts: "6,980",
+      prize: "Founder Badge",
+      rank: 4,
+      setBoost: "9,720",
+      totalXp: "69,410",
+      walletTag: "@alphaarc",
+      winningCardXp: "52,710",
+    },
+    {
+      name: "PolePosition",
+      otherBoosts: "6,220",
+      prize: "Champion Flair",
+      rank: 5,
+      setBoost: "9,140",
+      totalXp: "63,820",
+      walletTag: "0xf1au...7782",
+      winningCardXp: "48,460",
+    },
+    {
+      name: "NovaTag",
+      otherBoosts: "5,870",
+      prize: "Legend Title",
+      rank: 6,
+      setBoost: "8,460",
+      totalXp: "58,930",
+      walletTag: "@novatag",
+      winningCardXp: "44,600",
+    },
+    {
+      name: "CultureFlip",
+      otherBoosts: "5,220",
+      prize: "Elite Badge",
+      rank: 7,
+      setBoost: "7,980",
+      totalXp: "54,270",
+      walletTag: "0xcult...4420",
+      winningCardXp: "41,070",
+    },
+    {
+      name: "TapeDelayed",
+      otherBoosts: "4,980",
+      prize: "OG Flair",
+      rank: 8,
+      setBoost: "7,410",
+      totalXp: "50,610",
+      walletTag: "@tapedelayed",
+      winningCardXp: "38,220",
+    },
+    {
+      name: "0xForecast",
+      otherBoosts: "4,620",
+      prize: "Collector Badge",
+      rank: 9,
+      setBoost: "6,960",
+      totalXp: "47,840",
+      walletTag: "0xfore...210c",
+      winningCardXp: "36,260",
+    },
+    {
+      name: "DailyClaimr",
+      otherBoosts: "4,310",
+      prize: "Early Access",
+      rank: 10,
+      setBoost: "6,580",
+      totalXp: "45,320",
+      walletTag: "@dailyclaimr",
+      winningCardXp: "34,430",
+    },
+  ],
+};
