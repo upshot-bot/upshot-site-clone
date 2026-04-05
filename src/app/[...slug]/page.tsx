@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation";
 
 import { ContestsBrowser } from "@/components/upshot/contests-browser";
+import { DashboardBrowser } from "@/components/upshot/dashboard-browser";
 import { EventsBrowser } from "@/components/upshot/events-browser";
 import { LeaderboardBrowser, LeaderboardHeader } from "@/components/upshot/leaderboard-browser";
 import { MarketplaceBrowser } from "@/components/upshot/marketplace-browser";
@@ -750,6 +751,10 @@ function CardsPage() {
   );
 }
 
+function DashboardPage() {
+  return <DashboardBrowser cards={featuredCards.slice(0, 6)} contests={contestListings.slice(0, 3)} />;
+}
+
 function UnknownRoute({ slug }: { slug: string[] }) {
   const pathLabel = `/${slug.join("/")}`;
 
@@ -811,6 +816,9 @@ export default async function UpshotSubpage({
       break;
     case "login":
       content = <LoginPage />;
+      break;
+    case "dashboard":
+      content = <DashboardPage />;
       break;
     case "events":
       content = <EventsPage />;

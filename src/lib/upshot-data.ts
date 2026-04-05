@@ -12,6 +12,7 @@ import type {
 } from "@/types/upshot";
 
 export const navLinks: NavLink[] = [
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/store", label: "Store" },
   { href: "/contests", label: "Contests" },
   { href: "/marketplace", label: "Marketplace" },

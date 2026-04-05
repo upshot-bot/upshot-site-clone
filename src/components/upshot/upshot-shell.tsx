@@ -107,7 +107,7 @@ export function UpshotFooter() {
             <UpshotLink
               key={link.label}
               href={link.href}
-              className="font-sans text-[14px] leading-5 text-[#999] underline underline-offset-4 transition-colors hover:text-white"
+              className="font-sans text-[14px] leading-5 text-white transition-colors hover:text-[#89fdfc]"
             >
               {link.label}
             </UpshotLink>
